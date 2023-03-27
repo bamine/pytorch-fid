@@ -121,7 +121,7 @@ class ImagePathDataset(torch.utils.data.Dataset):
 
 
 def get_activations(
-    files, model, batch_size=50, dims=2048, device="cpu", num_workers=1
+    files, model, batch_size=50, dims=2048, device="cpu", num_workers=1, image_size=256
 ):
     """Calculates the activations of the pool_3 layer for all images.
 
@@ -153,7 +153,7 @@ def get_activations(
         )
         batch_size = len(files)
 
-    transforms = TF.Compose([TF.Resize((299, 299)), TF.ToTensor()])
+    transforms = TF.Compose([TF.Resize((image_size, image_size)), TF.ToTensor()])
     dataset = ImagePathDataset(files, transforms=transforms)
     dataloader = torch.utils.data.DataLoader(
         dataset,
